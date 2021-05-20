@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebase.utils';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
+
 import './header.styles.scss';
+import { connect } from 'react-redux';
 const Header = ({ currentUser }) => (
   <div className="header">
     <Link className="logo-container" to="/">
@@ -24,8 +26,13 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </Link>
       )}
+      {/* <Cart currentUser ={currentUser}/> */}
     </div>
   </div>
 );
+// root- reducer 에 access있는 함수.
+const mapStateToProps = (state) => ({
+  currentUser: state.user.currentUser,
+});
 
-export default Header;
+export default connect(mapStateToProps)(Header);
