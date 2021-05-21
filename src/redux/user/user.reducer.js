@@ -1,3 +1,4 @@
+import { UserActionTypes } from './user.types';
 const INITIAL_STATE = {
   currentUser: null,
 };
@@ -7,7 +8,7 @@ const INITIAL_STATE = {
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'SET_CURRENT_USER':
+    case UserActionTypes.SET_CURRENT_USER:
       return {
         //랜더링
         //props 다를떄마다 랜더링되는 리액트 props가 다르다는건 new Object

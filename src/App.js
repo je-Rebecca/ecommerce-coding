@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 
 import './App.css';
-import signInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up';
+import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up';
 import ShopPage from './pages/shop/shop.components';
 import Homepage from './pages/homepage/homepage.component.jsx';
 import Header from './components/header/header.component';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import {
   auth,
   createUserProfileDocument,
@@ -43,13 +43,22 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/signIn" component={signInAndSignUp} />
+          <Route
+            exact
+            path="/signin"
+            render={() =>
+              this.props.currentUser ? <Redirect to="/" /> : <SignInAndSignUp />
+            }
+          />
         </Switch>
       </div>
     );
   }
 }
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
