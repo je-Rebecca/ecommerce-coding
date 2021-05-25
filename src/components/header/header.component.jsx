@@ -2,11 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase/firebase.utils';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
-
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 import './header.styles.scss';
 import { connect } from 'react-redux';
 import CartIcon from '../cart-icon/cart-icon.component';
 import Cart from '../cart-dropdown/cart-dropdown.components';
+import { selectCartHiddent } from '../../redux/cart/cart.selectors';
+import { createStructuredSelector } from 'reselect';
 const Header = ({ currentUser, hidden }) => (
   <div className="header">
     <Link className="logo-container" to="/">
@@ -34,10 +36,11 @@ const Header = ({ currentUser, hidden }) => (
     {hidden ? null : <Cart />}
   </div>
 );
+
 // root- reducer 에 access있는 함수.
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-  currentUser,
-  hidden,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hidden: selectCartHiddent,
 });
 
 export default connect(mapStateToProps)(Header);

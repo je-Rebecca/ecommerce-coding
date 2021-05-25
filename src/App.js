@@ -13,6 +13,9 @@ import {
 } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
+import { createStructuredSelector } from 'reselect';
+import { selectCurrentUser } from './redux/user/user.selectors';
+import Checkoutpage from './pages/checkout/checkout.component';
 class App extends React.Component {
   unsubscribeFromAuth = null;
   componentDidMount() {
@@ -41,8 +44,10 @@ class App extends React.Component {
       <div>
         <Header />
         <Switch>
+          {/* shop:hot이런식으로 할거라 exact안함 */}
           <Route exact path="/" component={Homepage} />
           <Route path="/shop" component={ShopPage} />
+          <Route exact path="/checkout" component={Checkoutpage} />
           <Route
             exact
             path="/signin"
@@ -55,8 +60,8 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
