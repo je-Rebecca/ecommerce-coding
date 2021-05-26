@@ -13,3 +13,19 @@ export const addItemToCart = (cartItems, cartITemToAdd) => {
   }
   return [...cartItems, { ...cartITemToAdd, quantity: 1 }];
 };
+
+export const removeItemFromCart = (cartItems, cartItemToRemove) => {
+  const existingCartItem = cartItems.find(
+    (cartItem) => cartItem.id === cartItemToRemove.id
+  );
+
+  if (existingCartItem.quantity === 1) {
+    //1일때 버튼 눌리면 없애기
+    return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
+  }
+  return cartItems.map((cartItem) =>
+    cartItem.id === cartItemToRemove.id
+      ? { ...cartItem, quantity: cartItem.quantity - 1 }
+      : cartItem
+  );
+};
