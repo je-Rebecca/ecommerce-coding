@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addItem } from '../../redux/cart/cart.action';
 import CustomButton from '../custom-button/custom-button.component';
 import './collection-item.styles.scss';
-const collectionItem = ({ item, addItem }) => {
+const CollectionItem = ({ item, addItem }) => {
   const { id, name, price, imageUrl } = item;
   return (
     <div className="collection-item">
@@ -28,4 +28,4 @@ const mapDispatchToProps = (dispatch) => ({
   addItem: (item) => dispatch(addItem(item)),
 });
 //not take any state props,
-export default connect(null, mapDispatchToProps)(collectionItem);
+export default connect(null, mapDispatchToProps)(CollectionItem);
