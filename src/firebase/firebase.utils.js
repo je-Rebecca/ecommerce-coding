@@ -50,8 +50,9 @@ export const addCollectionAndDocs = async (collectionKey, objectsToAdd) => {
 };
 
 export const convertCollectionsSnapshotToMap = (collections) => {
-  const transformedCollections = collections.docs.map((doc) => {
+  const transformedCollection = collections.docs.map((doc) => {
     const { title, items } = doc.data();
+
     return {
       routeName: encodeURI(title.toLowerCase()),
       id: doc.id,
@@ -59,11 +60,19 @@ export const convertCollectionsSnapshotToMap = (collections) => {
       items,
     };
   });
-  // console.log(transformedCollections);
-  return transformedCollections.reduce((accumulator, collection) => {
+  return transformedCollection.reduce((accumulator, collection) => {
     accumulator[collection.title.toLowerCase()] = collection;
     return accumulator;
   }, {});
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
 };
 
 export const auth = firebase.auth();

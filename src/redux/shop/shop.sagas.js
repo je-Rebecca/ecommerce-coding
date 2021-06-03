@@ -1,14 +1,15 @@
 //saga code : async action into the saga generation styles
 //Listen every action specific type that I pass it
-import { takeEvery, call, put } from 'redux-saga/effects';
+import { takeLatest, call, put, all } from 'redux-saga/effects';
 import {
   convertCollectionsSnapshotToMap,
   firestore,
 } from '../../firebase/firebase.utils';
 import {
+  fetchCollectionsSuccess,
   fetchCollectionsFailure,
-  fetchCollectionsSuccss,
 } from './shop.actions';
+
 import ShopActionTypes from './shop.types';
 
 //call effect, inovke the method in the generator function
@@ -16,7 +17,7 @@ import ShopActionTypes from './shop.types';
 //call (some function or method   , 첫번째 파라미터(함수/메소드)로 전달할 파라미터 )
 //execution이 saga middleware로 감
 
-export function* fetchCollectionsAsync() {
+export function* fetchCollections() {
   try {
     const collectionRef = firestore.collection('collections');
     //promise 대신 generator
@@ -26,19 +27,20 @@ export function* fetchCollectionsAsync() {
       snapshot
     );
     //put creating the action (아래에서 함수 실행하고 collectionsMap전달)
-    yield put(fetchCollectionsSuccss(collectionsMap));
+    yield put(fetchCollectionsSuccess(collectionsMap));
   } catch (error) {
-    yield put(fetchCollectionsFailure(error.meesage));
+    yield put(fetchCollectionsFailure(error.message));
   }
 }
 //take every get other generator function run, response to this listener
 //다른 제너레이터 값이 두번째 값으로 들어옴
-export function* fetchCollectionsStart() {
-  yield takeEvery(
-    ShopActionTypes.FETCH_COLLECTIONS_START,
-    fetchCollectionsAsync
-  );
+export function* onFetchCollectionsStart() {
+  yield takeLatest(ShopActionTypes.FETCH_COLLECTIONS_START, fetchCollections);
 }
 //what the saga middleware do  : conqure. (it not block the execution )
 //사가 여러개 있을때, db가질러갈때 멈추지 않도록... (영향 받지 않도록)
 //yield controll back to the libriaary
+
+export function* shopSagas() {
+  yield all([call(onFetchCollectionsStart)]);
+}

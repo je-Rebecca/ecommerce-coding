@@ -1,16 +1,19 @@
-import {
-  convertCollectionsSnapshotToMap,
-  firestore,
-} from '../../firebase/firebase.utils';
 import ShopActionTypes from './shop.types';
+
+import {
+  firestore,
+  convertCollectionsSnapshotToMap,
+} from '../../firebase/firebase.utils';
 
 export const fetchCollectionsStart = () => ({
   type: ShopActionTypes.FETCH_COLLECTIONS_START,
 });
-export const fetchCollectionsSuccss = (collectionsMap) => ({
+
+export const fetchCollectionsSuccess = (collectionsMap) => ({
   type: ShopActionTypes.FETCH_COLLECTIONS_SUCCESS,
   payload: collectionsMap,
 });
+
 export const fetchCollectionsFailure = (errorMessage) => ({
   type: ShopActionTypes.FETCH_COLLECTIONS_FAILURE,
   payload: errorMessage,
@@ -29,8 +32,8 @@ export const fetchCollectionsStartAsync = () => {
         //하단 코드는 백앤드로가서 fetch 하고 돌아와서 컬렉션 맵을 build
         const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
         //컬랙션 맵 성공 이후 async 결과받고  dispatch 처리함
-        dispatch(fetchCollectionsSuccss(collectionsMap));
+        dispatch(fetchCollectionsSuccess(collectionsMap));
       })
-      .catch((e) => dispatch(fetchCollectionsFailure(e.message)));
+      .catch((error) => dispatch(fetchCollectionsFailure(error.message)));
   };
 };

@@ -1,13 +1,15 @@
 import React from 'react';
+
 import { SpinnerContainer, SpinnerOverlay } from './with-spinner.styles';
-const WithSpinner = (WrapComponent) => {
+
+const WithSpinner = (WrappedComponent) => {
   const Spinner = ({ isLoading, ...otherProps }) => {
     return isLoading ? (
       <SpinnerOverlay>
         <SpinnerContainer />
       </SpinnerOverlay>
     ) : (
-      <WrapComponent {...otherProps} />
+      <WrappedComponent {...otherProps} />
     );
   };
   return Spinner;

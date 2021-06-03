@@ -1,16 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
-// import CollectionOverview from '../../components/collection-overview/collection-overview.component';
-// import CollectionPage from '../collection/collection.component';
-// import {
-//   selestCollectionFetching,
-//   selestCollectionLoaded,
-// } from '../../redux/shop/shop.selector';
 import { connect } from 'react-redux';
-import {
-  fetchCollectionsStart,
-  // updateCollections,
-} from '../../redux/shop/shop.actions';
+import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
 // import { createSelectorCreator, createStructuredSelector } from 'reselect';
 import CollectionOverviewContainer from '../../components/collections-overview/collections-overview.container';
 import CollectionPageContainer from '../collection/collection.container';
