@@ -74,7 +74,6 @@ export function* signOut() {
   } catch (error) {
     yield put(signOutFailure(error));
   }
-  yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
 }
 export function* onSignOutStart() {
   yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
@@ -83,13 +82,13 @@ export function* onSignOutStart() {
 //userCredentials오는 거임  이걸 {}함
 export function* signUp({ payload: { email, password, displayName } }) {
   try {
-    const { user } = auth.createUserWithEmailAndPassword(email, password);
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     yield put(signUpSuccess({ user, addtionalData: { displayName } }));
   } catch (error) {
     yield put(signUpFailure(error));
   }
-  yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
 }
+
 export function* onSignUpStart() {
   yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
