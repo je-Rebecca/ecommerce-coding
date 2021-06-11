@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import './App.css';
 import SignInAndSignUp from './pages/sign-in-and-sign-up/sign-in-and-sign-up';
 import ShopPage from './pages/shop/shop.components';
 import Homepage from './pages/homepage/homepage.component.jsx';
 import Checkoutpage from './pages/checkout/checkout.component';
 import Header from './components/header/header.component';
+import { GlobalStyle } from './global.style';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
@@ -19,6 +19,7 @@ const App = ({ checkUserSession, currentUser }) => {
 
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Switch>
         {/* shop:hot이런식으로 할거라 exact안함 */}
